@@ -1,21 +1,32 @@
-# TUGAS PEMROGRAMAN WEB 2 - PERTEMUAN 10
+# TUGAS PEMROGRAMAN WEB 2 - PERTEMUAN 11
 
 ## Screenshot Hasil
 
 ## TUGAS 1
 
-> Source: [`database/migrations/2026_05_25_144911_create_kategori_table.php`](database/migrations/2026_05_25_144911_create_kategori_table.php) <br>
+### Generate DashboardController
+![Generate DashboardController](screenshot/Generate%20DashboardController.jpg)
 
-> Source: [`app/Models/Kategori.php`](app/Models/Kategori.php) <br>
+> Source: [`app/Http/Controllers/DashboardController.php`](app/Http/Controllers/DashboardController.php) <br>
 
-> Source: [`database/seeders/KategoriSeeder.php`](database/seeders/KategoriSeeder.php)<br>
+> Source: [`resources/views/dashboard/index.blade.php`](resources/views/dashboard/index.blade.php) <br>
 
-![Migration,Models,Seeder](screenshot/migration_model_sedeer.jpg)
+### Halaman Dashboard
+![Halaman Dashboard](screenshot/Halaman_Dashboard.png)
 
 ## TUGAS 2
 
-### 1. TESTING ROUTE
-![TESTING ROUTE](screenshot/route.png)
+### Generate Component BukuCard
+![Generate Component BukuCard](screenshot/component_BukuCard.jpg)
 
-### 2. MIGRATE AND SEEDER
-![MIGRATE AND SEEDER](screenshot/migrate,seeder.jpg)
+> Source: [`app/View/Components/BukuCard.php`](app/View/Components/BukuCard.php) <br>
+
+> Source: [`resources/views/components/buku-card.blade.php`](resources/views/components/buku-card.blade.php) <br>
+
+### Component CardBuku
+![Component CardBuku](screenshot/Halaman_CardBuku.png)
+
+## TUGAS 3
+
+### Search dan Filter Buku Advanced
+![Search dan Filter Buku Advanced](screenshot/Search%20dan%20Filter%20Buku%20Advanced.png)
