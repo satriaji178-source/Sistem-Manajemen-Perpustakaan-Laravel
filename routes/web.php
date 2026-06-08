@@ -8,6 +8,20 @@ use App\Http\Controllers\DashboardController;
 // Route untuk halaman pencarian buku
 Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
 
+// Custom route untuk filter kategori
+Route::get('/buku/kategori/{kategori}', [BukuController::class, 'filterKategori'])
+     ->name('buku.kategori');
+
+// Custom route untuk export buku ke Excel
+Route::get('/buku/export', [BukuController::class, 'export'])
+     ->name('buku.export');
+
+// Route untuk bulk delete buku
+Route::post('/buku/bulk-delete', [BukuController::class, 'bulkDelete'])
+    ->name('buku.bulk-delete');
+
+Route::delete('/buku/bulk-delete', [BukuController::class, 'bulkDelete']);
+
 // Resource route untuk Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -17,10 +31,6 @@ Route::get('/', function () {
 
 // Resource route untuk Buku
 Route::resource('buku', BukuController::class);
- 
-// Custom route untuk filter kategori
-Route::get('/buku/kategori/{kategori}', [BukuController::class, 'filterKategori'])
-     ->name('buku.kategori');
  
 // Resource route untuk Anggota (akan dibuat nanti)
 Route::resource('anggota', AnggotaController::class);

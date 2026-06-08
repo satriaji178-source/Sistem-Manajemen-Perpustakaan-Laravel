@@ -8,11 +8,15 @@
         <i class="bi bi-book"></i>
         Daftar Buku
     </h1>
-    <a href="{{ route('buku.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-circle"></i> Tambah Buku
-    </a>
+    <div class="d-flex gap-2">
+        <a href="{{ route('buku.export') }}" class="btn btn-success">
+            <i class="bi bi-download"></i> Export CSV
+        </a>
+        <a href="{{ route('buku.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Tambah Buku
+        </a>
+    </div>
 </div>
-
 {{-- Statistik Cards --}}
 <div class="row mb-4">
     <div class="col-md-4">
@@ -64,7 +68,6 @@
     </div>
 </div>
 
-{{-- TUGAS 3: Form Search & Filter Advanced --}}
 <div class="card mb-4 border-0 shadow-sm">
     <div class="card-body p-4">
         <h6 class="card-title mb-3 text-secondary">
@@ -119,7 +122,6 @@
     </div>
 </div>
 
-{{-- Filter Kategori Cepat (Bawaan Sebelumnya) --}}
 <div class="card mb-4">
     <div class="card-body">
         <h6 class="card-title">
@@ -148,11 +150,35 @@
     </div>
 </div>
 
-{{-- TUGAS 2 & 3: Tampilan Katalog Buku Menggunakan Reusable Component Grid --}}
+{{-- FORM BULK DELETE DENGAN METHOD POST ASLI --}}
+<form action="{{ route('buku.bulk-delete') }}" method="POST" id="form-bulk-delete" style="display: none;">
+    @csrf
+    <div id="bulk-delete-inputs"></div>
+</form>
+
+{{-- BAR UTAMA PILIH SEMUA BUKU --}}
+@if ($bukus->count() > 0)
+    <div class="card card-body mb-3 border-0 shadow-sm d-flex flex-row justify-content-between align-items-center py-2">
+        <div class="form-check m-0">
+            <input type="checkbox" id="select-all" class="form-check-input" style="cursor: pointer;">
+            <label class="form-check-label small fw-bold text-secondary" for="select-all" style="cursor: pointer;">Pilih Semua Buku</label>
+        </div>
+        {{-- PERUBAHAN UTAMA: Diubah ke type="button" agar tidak memicu submit form liar di browser --}}
+        <button type="button" class="btn btn-sm btn-danger px-3 shadow-sm" id="btn-bulk-delete" disabled>
+            <i class="bi bi-trash-fill"></i> Hapus yang Dipilih
+        </button>
+    </div>
+@endif
+
+{{-- GRID BUKU CARD --}}
 <div class="row">
     @forelse ($bukus as $buku)
-        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-            {{-- Mengakses Blade Component BukuCard yang kita buat di Tugas 2 --}}
+        <div class="col-sm-6 col-md-4 col-lg-3 mb-4 position-relative">
+            <div class="position-absolute" style="top: 35px; left: 25px; z-index: 10;">
+                {{-- Gunakan data attribute agar nilainya terisolasi dengan aman --}}
+                <input type="checkbox" value="{{ $buku->id }}" class="form-check-input border-secondary cb-buku" style="transform: scale(1.3); cursor: pointer;">
+            </div>
+            
             <x-buku-card :buku="$buku" :showActions="true" />
         </div>
     @empty
@@ -177,4 +203,112 @@
         </p>
     </div>
 @endif
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        
+        const selectAllCheckbox = document.getElementById('select-all');
+        const btnBulkDelete = document.getElementById('btn-bulk-delete');
+        const formBulkDelete = document.getElementById('form-bulk-delete');
+        const bulkInputsContainer = document.getElementById('bulk-delete-inputs');
+
+        // Fungsi pengecekan status tombol hapus massal
+        function toggleBulkDeleteButton() {
+            const anyChecked = Array.from(document.querySelectorAll('.cb-buku')).some(cb => cb.checked);
+            if (btnBulkDelete) {
+                btnBulkDelete.disabled = !anyChecked;
+            }
+        }
+
+        // 1. Aksi Select All
+        if (selectAllCheckbox) {
+            selectAllCheckbox.addEventListener('change', function() {
+                document.querySelectorAll('.cb-buku').forEach(cb => {
+                    cb.checked = this.checked;
+                });
+                toggleBulkDeleteButton();
+            });
+        }
+
+        // 2. Monitoring Checkbox Individu
+        document.body.addEventListener('change', function (e) {
+            if (e.target.classList.contains('cb-buku')) {
+                toggleBulkDeleteButton();
+                
+                // Uncheck select all jika ada satu yang dilepas
+                if (!e.target.checked && selectAllCheckbox) {
+                    selectAllCheckbox.checked = false;
+                }
+            }
+        });
+
+        // 3. Eksekusi Tombol Bulk Delete Independen
+        if (btnBulkDelete) {
+            btnBulkDelete.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const checkedBoxes = document.querySelectorAll('.cb-buku:checked');
+                const totalTerpilih = checkedBoxes.length;
+
+                if (totalTerpilih === 0) return;
+
+                Swal.fire({
+                    title: 'Konfirmasi Hapus Massal',
+                    text: `Apakah Anda yakin ingin menghapus ${totalTerpilih} buku yang Anda pilih secara permanen?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Hapus Semua!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Bersihkan container input lama
+                        bulkInputsContainer.innerHTML = '';
+
+                        // Bangun ulang input hidden agar dibaca murni sebagai POST array data oleh Controller
+                        checkedBoxes.forEach(cb => {
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'buku_ids[]';
+                            input.value = cb.value;
+                            bulkInputsContainer.appendChild(input);
+                        });
+
+                        // Submit form murni bypass tumpang tindih HTML
+                        formBulkDelete.submit();
+                    }
+                });
+            });
+        }
+
+        // 4. Integrasi Event Hapus Tunggal bawaan card Anda
+        document.body.addEventListener('click', function (e) {
+            const button = e.target.closest('.btn-delete');
+            
+            if (button) {
+                e.preventDefault();
+                const formSatuan = button.closest('form');
+                const judul = button.getAttribute('data-judul') || 'buku ini';
+                
+                Swal.fire({
+                    title: 'Konfirmasi Hapus',
+                    text: `Apakah Anda yakin ingin menghapus buku "${judul}"?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed && formSatuan) {
+                        formSatuan.submit();
+                    }
+                });
+            }
+        });
+    });
+</script>
+@endpush
 @endsection

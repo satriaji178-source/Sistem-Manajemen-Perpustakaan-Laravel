@@ -12,6 +12,9 @@
     {{-- Bootstrap Icons --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
+    {{-- SweetAlert2 CSS --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css">
+
     {{-- Custom CSS --}}
     <style>
         body {
@@ -80,7 +83,46 @@
     
     {{-- Bootstrap JS --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    {{-- ADDED: SweetAlert2 JS Library (Wajib agar eksekusi .fire() di view berfungsi) --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
+
+    {{-- Global Loading State saat submit form (Bukan menggunakan @push karena ini berkas layout induk) --}}
+    {{-- Global Loading State saat submit form --}}
+    @push('scripts')
+    <script>
+        // Loading state saat submit form
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                // UPDATE: Cek apakah form ini merupakan form hapus (memiliki class delete-form atau menggunakan method DELETE)
+                const isDeleteForm = this.classList.contains('delete-form') || this.querySelector('input[name="_method"]')?.value === 'DELETE';
+                
+                const submitBtn = this.querySelector('button[type="submit"]');
+                
+                // Jika bukan form hapus, jalankan loading state seperti biasa
+                if (submitBtn && !isDeleteForm) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menyimpan...';
+                }
+            });
+        });
+    </script>
+    @endpush
     
+    {{-- Auto-hide Flash Messages setelah 5 detik --}}
+    @if (session('success') || session('error') || session('info') || session('warning'))
+        <script>
+            // Auto hide alerts after 5 seconds
+            setTimeout(function() {
+                let alerts = document.querySelectorAll('.alert');
+                alerts.forEach(function(alert) {
+                    let bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                });
+            }, 5000);
+        </script>
+    @endif
+
     @stack('scripts')
 </body>
 </html>

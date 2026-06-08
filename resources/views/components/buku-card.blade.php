@@ -50,18 +50,60 @@
 
     @if($showActions)
         <div class="card-footer bg-white border-0 pb-3 pt-0 px-3">
-            <div class="row g-2">
-                <div class="col-6">
-                    <a href="{{ route('buku.show', $buku->id) }}" class="btn btn-outline-info btn-sm w-100 rounded-2 text-dark">
-                        <i class="bi bi-eye"></i> Detail
-                    </a>
-                </div>
-                <div class="col-6">
-                    <a href="{{ route('buku.edit', $buku->id) }}" class="btn btn-warning btn-sm w-100 rounded-2">
-                        <i class="bi bi-pencil"></i> Edit
-                    </a>
-                </div>
-            </div>
+    <div class="row g-2">
+        <div class="col-4">
+            <a href="{{ route('buku.show', $buku->id) }}" class="btn btn-outline-info btn-sm w-100 rounded-2 text-dark text-truncate">
+                <i class="bi bi-eye"></i> Detail
+            </a>
         </div>
+        
+        <div class="col-4">
+            <a href="{{ route('buku.edit', $buku->id) }}" class="btn btn-warning btn-sm w-100 rounded-2 text-truncate">
+                <i class="bi bi-pencil"></i> Edit
+            </a>
+        </div>
+        
+        <div class="col-4">
+            <form action="{{ route('buku.destroy', $buku->id) }}" 
+                method="POST" 
+                class="d-inline delete-form">
+                @csrf
+                @method('DELETE')
+                <button type="button" class="btn btn-sm btn-danger w-100 btn-delete" 
+                        data-judul="{{ $buku->judul }}">
+                    <i class="bi bi-trash"></i> Hapus
+                </button>
+            </form>
+            
+            @push('scripts')
+            <script>
+                // SweetAlert confirmation untuk delete
+                document.querySelectorAll('.btn-delete').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const form = this.closest('form');
+                        const judul = this.getAttribute('data-judul');
+                        
+                        Swal.fire({
+                            title: 'Konfirmasi Hapus',
+                            text: `Apakah Anda yakin ingin menghapus buku "${judul}"?`,
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#d33',
+                            cancelButtonColor: '#3085d6',
+                            confirmButtonText: 'Ya, Hapus!',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                form.submit();
+                            }
+                        });
+                    });
+                });
+            </script>
+            @endpush
+        </div>
+    </div>
+</div>
     @endif
 </div>
