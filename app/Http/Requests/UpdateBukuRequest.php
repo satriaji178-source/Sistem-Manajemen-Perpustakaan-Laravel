@@ -26,7 +26,7 @@ class UpdateBukuRequest extends FormRequest
         $bukuId = $this->route('buku');
         
         return [
-            'kode_buku' => ['required', 'string', 'max:20', 'unique:buku,kode_buku', new KodeBukuFormat],
+            'kode_buku' => 'required|string|max:20|unique:buku,kode_buku,' . $bukuId, new KodeBukuFormat,
             'judul' => 'required|string|max:200',
             'kategori' => 'required|in:Programming,Database,Web Design,Networking,Data Science',
             'pengarang' => 'required|string|max:100',

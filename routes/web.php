@@ -32,5 +32,11 @@ Route::get('/', function () {
 // Resource route untuk Buku
 Route::resource('buku', BukuController::class);
  
-// Resource route untuk Anggota (akan dibuat nanti)
+// Route untuk export anggota ke Excel
+Route::get('anggota/export', [AnggotaController::class, 'export'])->name('anggota.export');
+
+// Route untuk fitur pencarian anggota
+Route::get('anggota/search', [AnggotaController::class, 'search'])->name('anggota.search');
+
+// Resource route untuk Anggota
 Route::resource('anggota', AnggotaController::class);

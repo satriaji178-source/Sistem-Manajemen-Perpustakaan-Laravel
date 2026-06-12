@@ -98,11 +98,11 @@
                 <div class="row text-muted small">
                     <div class="col-md-6">
                         <i class="bi bi-clock"></i> 
-                        Ditambahkan: {{ $anggota->created_at->format('d M Y H:i') }}
+                        Ditambahkan: {{ $anggota->created_at->setTimezone('Asia/Jakarta')->translatedFormat('d M Y H:i') }} WIB
                     </div>
                     <div class="col-md-6 text-end">
                         <i class="bi bi-clock-history"></i> 
-                        Terakhir Update: {{ $anggota->updated_at->format('d M Y H:i') }}
+                        Terakhir Update: {{ $anggota->updated_at->setTimezone('Asia/Jakarta')->translatedFormat('d M Y H:i') }} WIB
                     </div>
                 </div>
             </div>

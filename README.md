@@ -1,24 +1,27 @@
-# TUGAS PEMROGRAMAN WEB 2 - PERTEMUAN 12
+# TUGAS PEMROGRAMAN WEB 2 - PERTEMUAN 13
 
 ## Screenshot Hasil
 
 ## TUGAS 1
 
-### Validation Rules
-![Validation Rules](screenshot/Validasi_Rule.png)
+### Generate Kode Anggota
+![Generate Kode Anggota](screenshot/kodeAnggotaOtomatis.png)
+
+### Anggota Dengan Kode Baru
+![Anggota Kode Baru](screenshot/AnggotaBaru.png)
 
 ## TUGAS 2
 
-### Bulk Delete
-![Bulk Delete](screenshot/Bulk_Delete.png)
+### Install Package
+![Install](screenshot/instal_package.jpg)
 
-### SweetAlert Bulk Delete
-![SweetAlert Bulk Delete](screenshot/SweetAlert-Bulkdelete.jpg)
+### Export Class
+![Export Class](screenshot/Export_AnggotaExport.jpg)
+
+### Hasil 
+![Hasil ss](screenshot/screenhot_diExcel.jpg)
 
 ## TUGAS 3
 
-### Export CSV
-![ExportCSV](screenshot/exportCSV.png)
-
-### Hasil Export CSV
-![Hasil Export CSV](screenshot/HasilExportCSV.jpg)
+### Advance Search
+![advance Search](screenshot/Advance_Search.png)
