@@ -44,7 +44,7 @@
 <body>
     {{-- Navbar --}}
     @include('layouts.navbar')
-    
+
     {{-- Main Content --}}
     <main class="py-4">
         <div class="container">

@@ -1,0 +1,108 @@
+@extends('layouts.app')
+ 
+@section('title', 'Daftar Transaksi')
+ 
+@section('content')
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>
+        <i class="bi bi-arrow-left-right"></i>
+        Daftar Transaksi Peminjaman
+    </h1>
+    <a href="{{ route('transaksi.create') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Pinjam Buku
+    </a>
+</div>
+ 
+{{-- Statistik --}}
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card border-primary shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">Total Transaksi</h6>
+                <h2 class="fw-bold">{{ $transaksis->count() }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-warning shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">Sedang Dipinjam</h6>
+                <h2 class="fw-bold">{{ $transaksis->where('status', 'Dipinjam')->count() }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-success shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">Sudah Dikembalikan</h6>
+                <h2 class="fw-bold">{{ $transaksis->where('status', 'Dikembalikan')->count() }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+{{-- Tabel Transaksi --}}
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 5%">No</th>
+                        <th>Kode Transaksi</th>
+                        <th>Anggota</th>
+                        <th>Buku</th>
+                        <th>Tanggal Pinjam</th>
+                        <th>Tanggal Kembali</th>
+                        <th>Status</th>
+                        <th style="width: 10%">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($transaksis as $transaksi)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td><code>{{ $transaksi->kode_transaksi }}</code></td>
+                        <td>{{ $transaksi->anggota->nama }}</td>
+                        <td>{{ $transaksi->buku->judul }}</td>
+                        <td>{{ $transaksi->tanggal_pinjam->format('d M Y') }}</td>
+                        <td>{{ $transaksi->tanggal_kembali->format('d M Y') }}</td>
+                        <td>
+                            @if($transaksi->status == 'Dikembalikan')
+                                <span class="badge bg-success px-3 py-2 rounded-pill">Dikembalikan</span>
+                            @else
+                                @php
+                                    $hariIni = \Carbon\Carbon::today();
+                                    $deadline = \Carbon\Carbon::parse($transaksi->tanggal_kembali);
+                                    $selisihHari = $deadline->diffInDays($hariIni, false);
+                                @endphp
+
+                                @if($selisihHari > 0)
+                                    <span class="badge bg-danger px-3 py-2 rounded-pill">
+                                        <i class="bi bi-exclamation-triangle-fill me-1"></i> Terlambat {{ $selisihHari }} Hari
+                                    </span>
+                                @else
+                                    <span class="badge bg-warning text-dark px-3 py-2 rounded-pill">Dipinjam</span>
+                                @endif
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{ route('transaksi.show', $transaksi->id) }}" 
+                               class="btn btn-sm btn-info text-white px-3">
+                                 <i class="bi bi-eye"></i> Detail
+                            </a>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="8" class="text-center py-4 text-muted">
+                            Belum ada transaksi
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@endsection

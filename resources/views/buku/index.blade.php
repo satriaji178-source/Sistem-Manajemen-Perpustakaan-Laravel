@@ -10,7 +10,7 @@
     </h1>
     <div class="d-flex gap-2">
         <a href="{{ route('buku.export') }}" class="btn btn-success">
-            <i class="bi bi-download"></i> Export CSV
+            <i class="bi bi-download"></i> Export Excel
         </a>
         <a href="{{ route('buku.create') }}" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i> Tambah Buku

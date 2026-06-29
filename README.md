@@ -1,27 +1,36 @@
-# TUGAS PEMROGRAMAN WEB 2 - PERTEMUAN 13
+# TUGAS PEMROGRAMAN WEB 2 - PERTEMUAN 14
 
 ## Screenshot Hasil
 
-## TUGAS 1
+## TUGAS 1 Fitur Pengembalian Buku
 
-### Generate Kode Anggota
-![Generate Kode Anggota](screenshot/kodeAnggotaOtomatis.png)
+### Detail Transaksi
+![Detail Transaksi](screenshot/buku_dikembalikan.png)
 
-### Anggota Dengan Kode Baru
-![Anggota Kode Baru](screenshot/AnggotaBaru.png)
+### SweetAlert Keembalikan Buku
+![SweetAlert](screenshot/sweetalert.png)
 
-## TUGAS 2
+### Buku Dikembalikan
+![Buku Kembali](screenshot/buku_dikembalikan.png)
 
-### Install Package
-![Install](screenshot/instal_package.jpg)
+## TUGAS 2 Laporan Transaksi
 
-### Export Class
-![Export Class](screenshot/Export_AnggotaExport.jpg)
+### Laporan Transaksi
+![Laporan](screenshot/laporan_transaksi.png)
 
-### Hasil 
-![Hasil ss](screenshot/screenhot_diExcel.jpg)
+### Filter Pencarian Laporan Transaksi
+![Pencarian](screenshot/filterpencarian_laporantransaksi.png)
 
-## TUGAS 3
+### Hasil Export PDF
+![Hasil PDF](screenshot/pdf_laporantransaksi.png)
 
-### Advance Search
-![advance Search](screenshot/Advance_Search.png)
+## TUGAS 3 Notif Terlambat
+
+### Widget Terlambat
+![Widget](screenshot/widget_terlambat.png)
+
+### Badge Terlambat (Merah)
+![Badge](screenshot/badge_terlambat.png)
+
+### Peringatan Sudah Melewati Tanggal Kembali
+![Peringatan](screenshot/warning_keterlambatan.png)

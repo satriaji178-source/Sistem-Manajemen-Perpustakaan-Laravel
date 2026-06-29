@@ -113,4 +113,10 @@ class Anggota extends Model
         return $query->whereMonth('tanggal_daftar', Carbon::now()->month)
                      ->whereYear('tanggal_daftar', Carbon::now()->year);
     }
+
+    //TRANSAKSI
+    public function transaksis()
+    {
+        return $this->hasMany(Transaksi::class);
+    }
 }

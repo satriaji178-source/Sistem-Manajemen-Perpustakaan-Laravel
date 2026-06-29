@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use illuminate\Http\Request;
 use App\Models\Buku;
 use App\Models\Anggota;
+use App\Models\Transaksi;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -21,6 +23,13 @@ class DashboardController extends Controller
         $bukuTerbaru = Buku::latest()->take(5)->get();
         $anggotaTerbaru = Anggota::latest()->take(5)->get();
 
+        $transaksiTerlambat = Transaksi::with(['anggota', 'buku'])
+            ->where('status', 'Dipinjam')
+            ->where('tanggal_kembali', '<', Carbon::today())
+            ->get();
+
+        $jumlahTransaksiTerlambat = $transaksiTerlambat->count();
+
         return view('dashboard.index', compact(
             'totalBuku', 
             'bukuTersedia', 
@@ -29,7 +38,9 @@ class DashboardController extends Controller
             'anggotaAktif', 
             'anggotaNonaktif',
             'bukuTerbaru', 
-            'anggotaTerbaru'
+            'anggotaTerbaru',
+            'transaksiTerlambat',
+            'jumlahTransaksiTerlambat'
         ));
     }
 }
