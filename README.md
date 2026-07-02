@@ -130,7 +130,6 @@ Setelah itu, buka browser ke `http://127.0.0.1:8000`.
 
 ## Author
 
-NAMA: SATRIAJI AMMARULLOH
-NIM: 60324017
-UNIVERSITAS K.H ABDURRAHMAN WAHID PEKALONGAN
-EMAIL: satriaji178@gmail.com
+| **Nama Lengkap** | Satriaji Ammarulloh |
+| **Nomor Induk Mahasiswa (NIM)** | 60324017 |
+| **Institusi** | Universitas K.H. Abdurrahman Wahid Pekalongan |
