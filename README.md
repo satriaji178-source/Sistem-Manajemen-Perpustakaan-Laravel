@@ -129,7 +129,9 @@ Setelah itu, buka browser ke `http://127.0.0.1:8000`.
 - PHPUnit
 
 ## Author
-
+| 📋 Data Diri | 🔍 Detail Informasi |
+| :--- | :--- |
 | **Nama Lengkap** | Satriaji Ammarulloh |
-| **Nomor Induk Mahasiswa (NIM)** | 60324017 |
-| **Institusi** | Universitas K.H. Abdurrahman Wahid Pekalongan |
+| **NIM** | 60324017 |
+| **Universitas** | Universitas K.H. Abdurrahman Wahid Pekalongan |
+| **Email** | [satriaji178@gmail.com](mailto:satriaji178@gmail.com) |
