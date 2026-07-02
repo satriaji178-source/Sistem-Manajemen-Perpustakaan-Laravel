@@ -105,13 +105,14 @@
                 </div>
 
                 <div class="col-md-3">
-                    <label class="form-label small fw-bold text-muted">Status Stok</label>
-                    <select name="ketersediaan" class="form-select">
-                        <option value="">Semua Status</option>
-                        <option value="tersedia" {{ request('ketersediaan') == 'tersedia' ? 'selected' : '' }}>Tersedia (Stok > 0)</option>
-                        <option value="habis" {{ request('ketersediaan') == 'habis' ? 'selected' : '' }}>Habis (Stok = 0)</option>
+                    <label class="form-label small fw-bold text-muted">Stok</label>
+                    <select name="stok" class="form-select">
+                        <option value="">-- Semua --</option>
+                        <option value="tersedia" {{ request('stok') == 'tersedia' ? 'selected' : '' }}>Tersedia</option>
+                        <option value="habis" {{ request('stok') == 'habis' ? 'selected' : '' }}>Habis</option>
                     </select>
                 </div>
+
             </div>
 
             <div class="d-flex justify-content-end gap-2 mt-3 pt-3 border-top">

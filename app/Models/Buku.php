@@ -131,4 +131,10 @@ class Buku extends Model
     {
         return $query->where('tahun_terbit', '>=', 2024);   
     }
+
+    public function transaksis()
+    {
+        // Sesuaikan 'Transaksi' dengan nama model transaksi Anda yang sebenarnya
+        return $this->hasMany(Transaksi::class); 
+    }
 }

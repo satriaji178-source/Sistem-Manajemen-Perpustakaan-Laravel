@@ -37,11 +37,19 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('transaksi.laporan') ? 'active fw-semibold border-bottom border-primary border-2' : '' }}" href="{{ route('transaksi.laporan') }}">
-                        {{ __('Laporan Transaksi') }}
+                    <a class="nav-link {{ request()->routeIs('laporan.index') ? 'active fw-semibold border-bottom border-primary border-2' : '' }}" href="{{ route('laporan.index') }}">
+                        {{ __('Laporan') }}
                     </a>
                 </li>
             </ul>
+
+            <form class="d-flex" action="{{ route('search') }}" method="GET">
+            <input class="form-control me-2" type="search" name="q"
+                placeholder="Cari buku, anggota, transaksi..." value="{{ request('q') }}">
+            <button class="btn btn-outline-light" type="submit">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
 
             <ul class="navbar-nav border-top border-lg-0 pt-2 pt-lg-0">
                 <li class="nav-item dropdown">

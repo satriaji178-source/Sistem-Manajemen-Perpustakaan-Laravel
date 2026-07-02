@@ -156,9 +156,9 @@
             text: "Pastikan buku yang dikembalikan sudah sesuai dengan data transaksi.",
             icon: 'question',
             showCancelButton: true,
-            confirmButtonColor: '#ffc107', // Warna oranye/kuning Bootstrap
+            confirmButtonColor: '#198754', // Warna hijau Bootstrap
             cancelButtonColor: '#6c757d',
-            confirmButtonText: '<span style="color: #212529; font-weight: bold;">Ya, Kembalikan!</span>',
+            confirmButtonText: '<span style="color: #fff; font-weight: bold;">Ya, Kembalikan!</span>',
             cancelButtonText: 'Batal',
             reverseButtons: true
         }).then((result) => {

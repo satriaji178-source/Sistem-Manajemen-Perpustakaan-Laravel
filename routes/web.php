@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +23,9 @@ Route::middleware(['auth'])->group(function () {
     
     // --- Dashboard ---
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Global Search
+    Route::get('/search', [SearchController::class, 'index'])->name('search');
 
     // --- Profile System ---
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -59,6 +64,9 @@ Route::middleware(['auth'])->group(function () {
     // --- Transaksi - CRUD + Custom Routes ---
     Route::resource('transaksi', TransaksiController::class);
     Route::put('/transaksi/{id}/kembalikan', [TransaksiController::class, 'kembalikan'])->name('transaksi.kembalikan');
+
+    //Route Laporan
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
 
 });
 

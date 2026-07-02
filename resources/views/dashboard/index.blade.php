@@ -1,11 +1,34 @@
 @extends('layouts.app')
-
+@section('title', 'Dashboard')
+ 
 @section('content')
-<div class="py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-semibold fs-4 text-dark m-0">
-            {{ __('Dashboard Perpustakaan') }}
-        </h2>
+<div class="container-fluid py-4">
+    <h2 class="mb-4">Dashboard Perpustakaan</h2>
+ 
+    {{-- Statistics Cards --}}
+    <div class="row g-3 mb-4">
+        @foreach([
+            ['Total Buku', $stats['total_buku'], 'bi-book', 'primary'],
+            ['Anggota Aktif', $stats['total_anggota'], 'bi-people', 'success'],
+            ['Sedang Dipinjam', $stats['sedang_dipinjam'], 'bi-journal-arrow-up', 'info'],
+            ['Terlambat', $stats['terlambat'], 'bi-exclamation-triangle', 'danger'],
+            ['Transaksi Hari Ini', $stats['transaksi_hari_ini'], 'bi-calendar-check', 'warning'],
+            ['Buku Tersedia', $stats['buku_tersedia'], 'bi-bookshelf', 'secondary'],
+            ['Total Transaksi', $stats['total_transaksi'], 'bi-receipt', 'dark'],
+            ['Denda Bulan Ini', 'Rp ' . number_format($stats['denda_bulan_ini'], 0, ',', '.'), 'bi-cash', 'danger'],
+        ] as [$label, $value, $icon, $color])
+        <div class="col-xl-3 col-md-6">
+            <div class="card border-{{ $color }} h-100">
+                <div class="card-body d-flex align-items-center">
+                    <i class="bi {{ $icon }} fs-1 text-{{ $color }} me-3"></i>
+                    <div>
+                        <h6 class="text-muted mb-1">{{ $label }}</h6>
+                        <h4 class="mb-0">{{ $value }}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endforeach
     </div>
 
     <div class="row mt-4">
@@ -74,161 +97,106 @@
                 </div>
             </div>
         </div>
-    <div class="row g-4 mb-4">
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm">
-                <div class="card-body p-4 d-flex align-items-center">
-                    <div class="flex-shrink-0 bg-primary bg-opacity-10 text-primary rounded p-3">
-                        <svg class="bi" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
-                    </div>
-                    <div class="ms-3">
-                        <p class="text-muted small mb-1 fw-medium">Total Buku</p>
-                        <h4 class="mb-0 fw-bold text-dark">{{ \App\Models\Buku::count() }}</h4>
-                    </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="card mb-4 shadow-sm border-0">
+        <div class="card-header bg-white font-weight-bold py-3">
+            <h5 class="mb-0"><i class="fa-solid fa-link text-secondary me-2"></i>Quick Links</h5>
+        </div>
+        <div class="card-body">
+            <div class="d-flex flex-wrap gap-2">
+                <a href="/" class="btn btn-outline-secondary"><i class="fa-solid fa-house me-1"></i> Home</a>
+                <a href="/dashboard" class="btn btn-primary"><i class="fa-solid fa-gauge me-1"></i> Dashboard</a>
+                <a href="/buku" class="btn btn-outline-success"><i class="fa-solid fa-book me-1"></i> Kelola Buku</a>
+                <a href="/anggota" class="btn btn-outline-info text-dark"><i class="fa-solid fa-users me-1"></i> Kelola Anggota</a>
+                <a href="/transaksi" class="btn btn-outline-warning text-dark"><i class="fa-solid fa-exchange-alt me-1"></i> Transaksi</a>
+            </div>
+        </div>
+    </div>
+ 
+    {{-- Charts --}}
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">Transaksi 6 Bulan Terakhir</div>
+                <div class="card-body">
+                    <canvas id="chartTransaksi" height="100"></canvas>
                 </div>
             </div>
         </div>
-
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm">
-                <div class="card-body p-4 d-flex align-items-center">
-                    <div class="flex-shrink-0 bg-success bg-opacity-10 text-success rounded p-3">
-                        <svg class="bi" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                        </svg>
-                    </div>
-                    <div class="ms-3">
-                        <p class="text-muted small mb-1 fw-medium">Total Anggota</p>
-                        <h4 class="mb-0 fw-bold text-dark">{{ \App\Models\Anggota::count() }}</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm">
-                <div class="card-body p-4 d-flex align-items-center">
-                    <div class="flex-shrink-0 bg-warning bg-opacity-10 text-warning rounded p-3">
-                        <svg class="bi" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                        </svg>
-                    </div>
-                    <div class="ms-3">
-                        <p class="text-muted small mb-1 fw-medium">Dipinjam</p>
-                        <h4 class="mb-0 fw-bold text-dark">{{ \App\Models\Transaksi::where('status', 'Dipinjam')->count() }}</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-6 col-lg-3">
-            <div class="card h-100 border-0 shadow-sm">
-                <div class="card-body p-4 d-flex align-items-center">
-                    <div class="flex-shrink-0 bg-info bg-opacity-10 text-info rounded p-3">
-                        <svg class="bi" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                    </div>
-                    <div class="ms-3">
-                        <p class="text-muted small mb-1 fw-medium">Transaksi Hari Ini</p>
-                        <h4 class="mb-0 fw-bold text-dark">{{ \App\Models\Transaksi::whereDate('created_at', today())->count() }}</h4>
-                    </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">Top 5 Buku Populer</div>
+                <div class="card-body">
+                    <canvas id="chartBuku" height="200"></canvas>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-body p-4">
-            <h5 class="card-title fw-bold text-dark mb-4">Aksi Cepat</h5>
-            <div class="row g-3">
-                <div class="col-12 col-md-6 col-lg-3">
-                    <a href="{{ route('buku.create') }}" class="d-flex align-items-center p-3 bg-primary bg-opacity-10 border border-primary border-opacity-10 rounded text-decoration-none transition-hover">
-                        <svg class="bi text-primary me-3" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                        <span class="fw-semibold text-primary">Tambah Buku</span>
-                    </a>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <a href="{{ route('anggota.create') }}" class="d-flex align-items-center p-3 bg-success bg-opacity-10 border border-success border-opacity-10 rounded text-decoration-none transition-hover">
-                        <svg class="bi text-success me-3" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
-                        </svg>
-                        <span class="fw-semibold text-success">Tambah Anggota</span>
-                    </a>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <a href="{{ route('transaksi.create') }}" class="d-flex align-items-center p-3 bg-warning bg-opacity-10 border border-warning border-opacity-10 rounded text-decoration-none transition-hover">
-                        <svg class="bi text-warning me-3" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                        </svg>
-                        <span class="fw-semibold text-warning-emphasis">Pinjam Buku</span>
-                    </a>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <a href="{{ route('transaksi.index') }}" class="d-flex align-items-center p-3 bg-info bg-opacity-10 border border-info border-opacity-10 rounded text-decoration-none transition-hover">
-                        <svg class="bi text-info me-3" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                        </svg>
-                        <span class="fw-semibold text-info-emphasis">Lihat Transaksi</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card border-0 shadow-sm">
-        <div class="card-body p-4">
-            <h5 class="card-title fw-bold text-dark mb-4">Transaksi Terbaru</h5>
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th class="px-4 py-3 text-secondary text-uppercase fs-7 fw-bold">Kode</th>
-                            <th class="px-4 py-3 text-secondary text-uppercase fs-7 fw-bold">Anggota</th>
-                            <th class="px-4 py-3 text-secondary text-uppercase fs-7 fw-bold">Buku</th>
-                            <th class="px-4 py-3 text-secondary text-uppercase fs-7 fw-bold">Tanggal Pinjam</th>
-                            <th class="px-4 py-3 text-secondary text-uppercase fs-7 fw-bold">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse(\App\Models\Transaksi::with(['anggota', 'buku'])->latest()->take(5)->get() as $transaksi)
-                        <tr>
-                            <td class="px-4 py-3 fw-medium text-dark">{{ $transaksi->kode_transaksi }}</td>
-                            <td class="px-4 py-3 text-muted">{{ $transaksi->anggota->nama }}</td>
-                            <td class="px-4 py-3 text-muted">{{ $transaksi->buku->judul }}</td>
-                            <td class="px-4 py-3 text-muted">{{ $transaksi->tanggal_pinjam->format('d M Y') }}</td>
-                            <td class="px-4 py-3">
-                                <span class="badge rounded-pill px-3 py-2 fs-7 {{ $transaksi->status == 'Dipinjam' ? 'bg-warning bg-opacity-10 text-warning-emphasis' : 'bg-success bg-opacity-10 text-success-emphasis' }}">
-                                    {{ $transaksi->status }}
-                                </span>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="5" class="text-center py-4 text-muted">
-                                Belum ada transaksi
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+ 
+    {{-- Recent Transactions --}}
+    <div class="card">
+        <div class="card-header">Transaksi Terbaru</div>
+        <div class="card-body table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Kode</th><th>Anggota</th><th>Buku</th>
+                        <th>Tgl Pinjam</th><th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($recentTransaksi as $trx)
+                    <tr>
+                        <td>{{ $trx->kode_transaksi }}</td>
+                        <td>{{ $trx->anggota->nama }}</td>
+                        <td>{{ $trx->buku->judul }}</td>
+                        <td>{{ $trx->tanggal_pinjam->format('d/m/Y') }}</td>
+                        <td>
+                            <span class="badge bg-{{ $trx->status === 'Dipinjam' ? 'warning' : 'success' }}">
+                                {{ $trx->status }}
+                            </span>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-
-<style>
-    /* Sedikit styling tambahan untuk efek hover agar interaksi terasa hidup */
-    .transition-hover:hover {
-        transform: translateY(-2px);
-        transition: transform 0.2s ease-in-out;
-    }
-    .fs-7 {
-        font-size: 0.75rem;
-    }
-</style>
+ 
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Line chart — Transaksi 6 bulan terakhir
+new Chart(document.getElementById('chartTransaksi'), {
+    type: 'line',
+    data: {
+        labels: @json($chartData->pluck('bulan')),
+        datasets: [
+            { label: 'Peminjaman', data: @json($chartData->pluck('pinjam')),
+              borderColor: '#0d6efd', tension: 0.3 },
+            { label: 'Pengembalian', data: @json($chartData->pluck('kembali')),
+              borderColor: '#198754', tension: 0.3 }
+        ]
+    },
+    options: { responsive: true }
+});
+ 
+// Pie chart — Buku Populer
+new Chart(document.getElementById('chartBuku'), {
+    type: 'pie',
+    data: {
+        labels: @json($bukuPopuler->pluck('judul')),
+        datasets: [{
+            data: @json($bukuPopuler->pluck('transaksis_count')),
+            backgroundColor: ['#0d6efd','#198754','#ffc107','#dc3545','#6f42c1']
+        }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+</script>
+@endpush
 @endsection
+
