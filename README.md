@@ -130,7 +130,7 @@ Setelah itu, buka browser ke `http://127.0.0.1:8000`.
 
 ## Author
 
-Nama Anda
-
-Email: your@email.com
-GitHub: github.com/yourusername
+NAMA: SATRIAJI AMMARULLOH
+NIM: 60324017
+UNIVERSITAS K.H ABDURRAHMAN WAHID PEKALONGAN
+EMAIL: satriaji178@gmail.com
