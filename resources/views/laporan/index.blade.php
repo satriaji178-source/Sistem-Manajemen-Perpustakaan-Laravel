@@ -2,8 +2,15 @@
 @section('title', 'Laporan Transaksi')
  
 @section('content')
-<div class="container py-4">
-    <h2>Laporan Transaksi</h2>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4><i class="fa fa-file-text me-2 text-success"></i> Laporan Transaksi</h4>
+        <div class="d-flex gap-2">
+            <a href="{{ route('transaksi.cetakPDF', request()->query()) }}" class="btn btn-danger" target="_blank">
+                <i class="bi bi-download"></i> Export PDF
+            </a>
+        </div>
+    </div>
  
     {{-- Filter Form --}}
     <div class="card mb-4">
