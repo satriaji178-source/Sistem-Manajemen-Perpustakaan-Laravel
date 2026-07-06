@@ -111,6 +111,7 @@
                 <a href="/buku" class="btn btn-outline-success"><i class="fa-solid fa-book me-1"></i> Kelola Buku</a>
                 <a href="/anggota" class="btn btn-outline-info text-dark"><i class="fa-solid fa-users me-1"></i> Kelola Anggota</a>
                 <a href="/transaksi" class="btn btn-outline-warning text-dark"><i class="fa-solid fa-exchange-alt me-1"></i> Transaksi</a>
+                <a href="/laporan" class="btn btn-outline-danger"><i class="fa-solid fa-file-alt me-1"></i> Laporan</a>
             </div>
         </div>
     </div>
